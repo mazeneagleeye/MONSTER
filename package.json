@@ -1,0 +1,16 @@
+{
+  "name": "monster-bot",
+  "version": "1.0.0",
+  "description": "Daily monster attack Discord bot (discord.js v14 + SQLite)",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "sqlite3": "^5.1.7"
+  }
+}
+
