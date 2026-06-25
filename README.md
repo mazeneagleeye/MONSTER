@@ -40,11 +40,9 @@ Daily monster attack game:
 - `/monster-setup` (admin): set channel, optional `action=reset`
 
 ## Images
-This code references `attachment://monsterX.png`.
-To make images show correctly, you should either:
-- Serve images via public URLs and update `imageUrlFromTier`, or
-- Modify the send logic to attach the files.
+The bot uses attachment-based images from the `images/` folder:
+- `images/monster1.png` ... `images/monster5.png`
 
-Add files:
-- `images/monster1.png` ... `images/monster5.png` (not yet wired as attachments in this scaffold).
+The code automatically attaches the correct image based on monster HP tier.
+If images are missing, the bot will still function and display the monster without an image.
 
