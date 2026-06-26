@@ -15,18 +15,19 @@ module.exports = {
       .setColor(0x2b2d42)
       .setDescription(`**HP:** ${monster.hp}/${monster.maxHp}`);
 
-    // Attach monster image (requires images/monster1.png .. monster5.png)
-    const imagePath = path.join(__dirname, '..', 'images', `monster${monster.imageTier}.png`);
+    // Attach monster image (requires images/slime.png, goblin.png, etc.)
+    const imageName = require('../lib/monsterState').getMonsterImageName(monster.title);
+    const imagePath = path.join(__dirname, '..', 'images', `${imageName}.png`);
     let attachment = null;
     try {
-      attachment = new AttachmentBuilder(imagePath, { name: `monster${monster.imageTier}.png` });
-      embed.setImage(`attachment://monster${monster.imageTier}.png`);
+      attachment = new AttachmentBuilder(imagePath, { name: `${imageName}.png` });
+      embed.setImage(`attachment://${imageName}.png`);
     } catch (e) {
       console.warn(`Monster image missing: ${imagePath}. Sending without image.`);
     }
 
     const row = new ActionRowBuilder().addComponents(
-      new ButtonBuilder().setCustomId('attack').setLabel('⚔️ Attack (once/day)').setStyle(ButtonStyle.Danger)
+      new ButtonBuilder().setCustomId('attack').setLabel('⚔️ Attack (once/hour)').setStyle(ButtonStyle.Danger)
     );
 
     const files = attachment ? [attachment] : [];
