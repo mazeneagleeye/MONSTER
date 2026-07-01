@@ -30,8 +30,11 @@ module.exports = {
       new ButtonBuilder().setCustomId('attack').setLabel('⚔️ Attack (once/hour)').setStyle(ButtonStyle.Danger)
     );
 
-    const files = attachment ? [attachment] : [];
-    await interaction.reply({ embeds: [embed], components: [row], files });
+    const replyOptions = { embeds: [embed], components: [row], ephemeral: false };
+    if (attachment) {
+      replyOptions.files = [attachment];
+    }
+    await interaction.reply(replyOptions);
   }
 };
 
