@@ -131,6 +131,37 @@ Monsters remember battles and get hungry. Neglect them and they may become disob
 - `/global leaderboard [type]` - View global rankings
 - `/global rank` - Check your rank
 
+### World Commands
+- `/explore world` - View world status and available regions
+- `/explore region [region]` - Explore a specific region
+- `/explore dungeon` - Enter the daily dungeon
+
+### Party Commands
+- `/party create [activity]` - Create a new party
+- `/party join [id]` - Join a party
+- `/party leave` - Leave your party
+- `/party info` - View party information
+- `/party browse` - Browse open parties
+- `/party disband` - Disband your party (leader only)
+- `/party start` - Start party activity (leader only)
+
+### Tournament Commands
+- `/tournament create [name] [type]` - Create a tournament
+- `/tournament join [id]` - Join a tournament
+- `/tournament leave [id]` - Leave a tournament
+- `/tournament browse` - Browse open tournaments
+- `/tournament info [id]` - View tournament details
+- `/tournament start [id]` - Start a tournament (creator only)
+
+### Shop Commands
+- `/shop create [name]` - Create your own shop
+- `/shop add-item [item] [price]` - Add item to your shop
+- `/shop remove-item [item]` - Remove item from your shop
+- `/shop view` - View your shop
+- `/shop browse` - Browse all shops
+- `/shop visit [id]` - Visit a specific shop
+- `/shop delete` - Delete your shop
+
 ### Admin Commands
 - `/monster-setup [channel]` - Set monster channel
 - `/monster-setup action=reset` - Reset monster state
