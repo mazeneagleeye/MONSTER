@@ -10,7 +10,6 @@
   "dependencies": {
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
-    "sqlite3": "^5.1.7"
+    "sql.js": "^1.14.1"
   }
 }
-
