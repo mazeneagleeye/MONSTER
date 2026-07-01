@@ -8,8 +8,8 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "discord.js": "^14.15.3",
+    "discord.js": "14.15.3",
     "dotenv": "^16.4.5",
-    "sql.js": "^1.14.1"
+    "sql.js": "^1.8.0"
   }
 }
