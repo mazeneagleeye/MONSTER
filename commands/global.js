@@ -6,30 +6,39 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('global')
     .setDescription('Global features')
-    .addSubcommand(sub => sub
-      .setName('chat')
-      .setDescription('Send a message to global chat')
-      .addStringOption(opt => opt
-        .setName('message')
-        .setDescription('Message to send')
-        .setRequired(true)
-        .setMaxLength(200)))
-    .addSubcommand(sub => sub
-      .setName('leaderboard')
-      .setDescription('View global leaderboard')
-      .addStringOption(opt => opt
-        .setName('type')
-        .setDescription('Leaderboard type')
-        .setRequired(false)
-        .addChoices(
-          { name: 'Level', value: 'level' },
-          { name: 'Damage', value: 'damage' },
-          { name: 'Gold', value: 'gold' },
-          { name: 'Guild', value: 'guild' }
-        )))
-    .addSubcommand(sub => sub
-      .setName('rank')
-      .setDescription('Check your global rank')),
+    .addSubcommand(sub => {
+      sub
+        .setName('chat')
+        .setDescription('Send a global message')
+        .addStringOption(opt => opt
+          .setName('message')
+          .setDescription('Message to send')
+          .setRequired(true)
+          .setMaxLength(200));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('leaderboard')
+        .setDescription('View global leaderboards')
+        .addStringOption(opt => opt
+          .setName('type')
+          .setDescription('Leaderboard type')
+          .setRequired(false)
+          .addChoices(
+            { name: 'Level', value: 'level' },
+            { name: 'Damage', value: 'damage' },
+            { name: 'Gold', value: 'gold' },
+            { name: 'Guilds', value: 'guild' }
+          ));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('rank')
+        .setDescription('Check your global rank');
+      return sub;
+    }),
 
   async execute(interaction) {
     await ensurePlayer(interaction.user.id);

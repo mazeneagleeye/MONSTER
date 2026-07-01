@@ -6,19 +6,28 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('quests')
     .setDescription('View and manage quests')
-    .addSubcommand(sub => sub
-      .setName('daily')
-      .setDescription('View your daily quests'))
-    .addSubcommand(sub => sub
-      .setName('claim')
-      .setDescription('Claim quest reward')
-      .addStringOption(opt => opt
-        .setName('quest')
-        .setDescription('Quest ID to claim')
-        .setRequired(true)))
-    .addSubcommand(sub => sub
-      .setName('weekly')
-      .setDescription('View your weekly quests')),
+    .addSubcommand(sub => {
+      sub
+        .setName('daily')
+        .setDescription('View your daily quests');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('claim')
+        .setDescription('Claim quest rewards')
+        .addStringOption(opt => opt
+          .setName('quest_id')
+          .setDescription('Quest ID to claim')
+          .setRequired(true));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('weekly')
+        .setDescription('View your weekly quests');
+      return sub;
+    }),
 
   async execute(interaction) {
     await ensurePlayer(interaction.user.id);

@@ -6,68 +6,83 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('market')
     .setDescription('Marketplace commands')
-    .addSubcommand(sub => sub
-      .setName('list')
-      .setDescription('List an item for sale')
-      .addStringOption(opt => opt
-        .setName('item')
-        .setDescription('Item ID from inventory')
-        .setRequired(true))
-      .addIntegerOption(opt => opt
-        .setName('price')
-        .setDescription('Price in gold')
-        .setRequired(true)
-        .setMinValue(1))
-      .addIntegerOption(opt => opt
-        .setName('quantity')
-        .setDescription('Quantity to sell')
-        .setRequired(false)
-        .setMinValue(1)
-        .setDefaultValue(1)))
-    .addSubcommand(sub => sub
-      .setName('buy')
-      .setDescription('Buy an item')
-      .addStringOption(opt => opt
-        .setName('listing')
-        .setDescription('Listing ID')
-        .setRequired(true))
-      .addIntegerOption(opt => opt
-        .setName('quantity')
-        .setDescription('Quantity to buy')
-        .setRequired(false)
-        .setMinValue(1)
-        .setDefaultValue(1)))
-    .addSubcommand(sub => sub
-      .setName('cancel')
-      .setDescription('Cancel a listing')
-      .addStringOption(opt => opt
-        .setName('listing')
-        .setDescription('Listing ID')
-        .setRequired(true)))
-    .addSubcommand(sub => sub
-      .setName('browse')
-      .setDescription('Browse marketplace')
-      .addStringOption(opt => opt
-        .setName('type')
-        .setDescription('Item type filter')
-        .setRequired(false)
-        .addChoices(
-          { name: 'Equipment', value: 'equipment' },
-          { name: 'Materials', value: 'material' },
-          { name: 'Monsters', value: 'monster' }
-        )))
-    .addSubcommand(sub => sub
-      .setName('sell-monster')
-      .setDescription('Sell a monster from your collection')
-      .addStringOption(opt => opt
-        .setName('monster')
-        .setDescription('Monster ID')
-        .setRequired(true))
-      .addIntegerOption(opt => opt
-        .setName('price')
-        .setDescription('Price in gold')
-        .setRequired(true)
-        .setMinValue(1))),
+    .addSubcommand(sub => {
+      sub
+        .setName('list')
+        .setDescription('List an item for sale')
+        .addStringOption(opt => opt
+          .setName('item')
+          .setDescription('Item ID from inventory')
+          .setRequired(true))
+        .addIntegerOption(opt => opt
+          .setName('price')
+          .setDescription('Price in gold')
+          .setRequired(true)
+          .setMinValue(1))
+        .addIntegerOption(opt => opt
+          .setName('quantity')
+          .setDescription('Quantity to sell')
+          .setRequired(false)
+          .setMinValue(1)
+          .setDefaultValue(1));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('buy')
+        .setDescription('Buy an item')
+        .addStringOption(opt => opt
+          .setName('listing')
+          .setDescription('Listing ID')
+          .setRequired(true))
+        .addIntegerOption(opt => opt
+          .setName('quantity')
+          .setDescription('Quantity to buy')
+          .setRequired(false)
+          .setMinValue(1)
+          .setDefaultValue(1));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('cancel')
+        .setDescription('Cancel a listing')
+        .addStringOption(opt => opt
+          .setName('listing')
+          .setDescription('Listing ID')
+          .setRequired(true));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('browse')
+        .setDescription('Browse marketplace')
+        .addStringOption(opt => opt
+          .setName('type')
+          .setDescription('Item type filter')
+          .setRequired(false)
+          .addChoices(
+            { name: 'Equipment', value: 'equipment' },
+            { name: 'Materials', value: 'material' },
+            { name: 'Monsters', value: 'monster' }
+          ));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('sell-monster')
+        .setDescription('Sell a monster from your collection')
+        .addStringOption(opt => opt
+          .setName('monster')
+          .setDescription('Monster ID')
+          .setRequired(true))
+        .addIntegerOption(opt => opt
+          .setName('price')
+          .setDescription('Price in gold')
+          .setRequired(true)
+          .setMinValue(1));
+      return sub;
+    }),
 
   async execute(interaction) {
     await ensurePlayer(interaction.user.id);

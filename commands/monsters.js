@@ -6,43 +6,58 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('monsters')
     .setDescription('Manage your monster collection')
-    .addSubcommand(sub => sub
-      .setName('collection')
-      .setDescription('View your monster collection'))
-    .addSubcommand(sub => sub
-      .setName('summon')
-      .setDescription('Summon a new monster (costs 100 gold)'))
-    .addSubcommand(sub => sub
-      .setName('interact')
-      .setDescription('Interact with your monster')
-      .addStringOption(opt => opt
-        .setName('action')
-        .setDescription('Interaction type')
-        .setRequired(true)
-        .addChoices(
-          { name: '🍖 Feed', value: 'feed' },
-          { name: '🎾 Play', value: 'play' },
-          { name: '💪 Train', value: 'train' },
-          { name: '✋ Pet', value: 'pet' }
-        ))
-      .addStringOption(opt => opt
-        .setName('monster')
-        .setDescription('Monster ID to interact with')
-        .setRequired(true)))
-    .addSubcommand(sub => sub
-      .setName('set-active')
-      .setDescription('Set your active monster for battles')
-      .addStringOption(opt => opt
-        .setName('monster')
-        .setDescription('Monster ID to set as active')
-        .setRequired(true)))
-    .addSubcommand(sub => sub
-      .setName('info')
-      .setDescription('View detailed monster info')
-      .addStringOption(opt => opt
-        .setName('monster')
-        .setDescription('Monster ID')
-        .setRequired(true))),
+    .addSubcommand(sub => {
+      sub
+        .setName('collection')
+        .setDescription('View your monster collection');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('summon')
+        .setDescription('Summon a new monster (costs 100 gold)');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('interact')
+        .setDescription('Interact with your monster')
+        .addStringOption(opt => opt
+          .setName('action')
+          .setDescription('Interaction type')
+          .setRequired(true)
+          .addChoices(
+            { name: '🍖 Feed', value: 'feed' },
+            { name: '🎾 Play', value: 'play' },
+            { name: '💪 Train', value: 'train' },
+            { name: '✋ Pet', value: 'pet' }
+          ))
+        .addStringOption(opt => opt
+          .setName('monster')
+          .setDescription('Monster ID to interact with')
+          .setRequired(true));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('set-active')
+        .setDescription('Set your active monster for battles')
+        .addStringOption(opt => opt
+          .setName('monster')
+          .setDescription('Monster ID to set as active')
+          .setRequired(true));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('info')
+        .setDescription('View detailed monster info')
+        .addStringOption(opt => opt
+          .setName('monster')
+          .setDescription('Monster ID')
+          .setRequired(true));
+      return sub;
+    }),
 
   async execute(interaction) {
     await ensurePlayer(interaction.user.id);

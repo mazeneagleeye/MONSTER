@@ -6,53 +6,77 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('guild')
     .setDescription('Guild management')
-    .addSubcommand(sub => sub
-      .setName('create')
-      .setDescription('Create a new guild')
-      .addStringOption(opt => opt
-        .setName('name')
-        .setDescription('Guild name')
-        .setRequired(true)
-        .setMaxLength(32)))
-    .addSubcommand(sub => sub
-      .setName('join')
-      .setDescription('Join a guild')
-      .addStringOption(opt => opt
-        .setName('id')
-        .setDescription('Guild ID')
-        .setRequired(true)))
-    .addSubcommand(sub => sub
-      .setName('leave')
-      .setDescription('Leave your guild'))
-    .addSubcommand(sub => sub
-      .setName('info')
-      .setDescription('View guild information'))
-    .addSubcommand(sub => sub
-      .setName('members')
-      .setDescription('View guild members'))
-    .addSubcommand(sub => sub
-      .setName('contribute')
-      .setDescription('Contribute gold to guild')
-      .addIntegerOption(opt => opt
-        .setName('amount')
-        .setDescription('Gold amount')
-        .setRequired(true)
-        .setMinValue(1)))
-    .addSubcommand(sub => sub
-      .setName('upgrade')
-      .setDescription('Upgrade guild')
-      .addStringOption(opt => opt
-        .setName('type')
-        .setDescription('Upgrade type')
-        .setRequired(true)
-        .addChoices(
-          { name: 'Bank', value: 'bank' },
-          { name: 'Member Capacity', value: 'members' },
-          { name: 'XP Boost', value: 'xp_boost' }
-        )))
-    .addSubcommand(sub => sub
-      .setName('leaderboard')
-      .setDescription('View guild leaderboard')),
+    .addSubcommand(sub => {
+      sub
+        .setName('create')
+        .setDescription('Create a new guild')
+        .addStringOption(opt => opt
+          .setName('name')
+          .setDescription('Guild name')
+          .setRequired(true)
+          .setMaxLength(32));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('join')
+        .setDescription('Join a guild')
+        .addStringOption(opt => opt
+          .setName('guild_id')
+          .setDescription('Guild ID to join')
+          .setRequired(true));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('leave')
+        .setDescription('Leave your guild');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('info')
+        .setDescription('View guild information');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('members')
+        .setDescription('View guild members');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('contribute')
+        .setDescription('Contribute gold to guild')
+        .addIntegerOption(opt => opt
+          .setName('amount')
+          .setDescription('Amount of gold')
+          .setRequired(true)
+          .setMinValue(1));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('upgrade')
+        .setDescription('Upgrade guild')
+        .addStringOption(opt => opt
+          .setName('type')
+          .setDescription('Upgrade type')
+          .setRequired(true)
+          .addChoices(
+            { name: 'Bank', value: 'bank' },
+            { name: 'Members', value: 'members' },
+            { name: 'Research', value: 'research' }
+          ));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('leaderboard')
+        .setDescription('View guild leaderboard');
+      return sub;
+    }),
 
   async execute(interaction) {
     await ensurePlayer(interaction.user.id);

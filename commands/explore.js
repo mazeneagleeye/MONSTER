@@ -6,31 +6,40 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('explore')
     .setDescription('Explore the world')
-    .addSubcommand(sub => sub
-      .setName('world')
-      .setDescription('View world status and available regions'))
-    .addSubcommand(sub => sub
-      .setName('region')
-      .setDescription('Explore a specific region')
-      .addStringOption(opt => opt
+    .addSubcommand(sub => {
+      sub
+        .setName('world')
+        .setDescription('View world status and available regions');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
         .setName('region')
-        .setDescription('Region to explore')
-        .setRequired(true)
-        .addChoices(
-          { name: '🌲 Enchanted Forest', value: 'forest' },
-          { name: '🏜️ Scorching Desert', value: 'desert' },
-          { name: '🌋 Volcanic Wasteland', value: 'volcano' },
-          { name: '❄️ Frozen Tundra', value: 'ice' },
-          { name: '🌌 Cosmic Void', value: 'space' },
-          { name: '🌊 Abyssal Ocean', value: 'ocean' },
-          { name: '🌑 Shadow Realm', value: 'shadow' },
-          { name: '✨ Celestial Plains', value: 'celestial' },
-          { name: '🌀 Chaos Dimension', value: 'chaos' },
-          { name: '⭐ Legendary Lands', value: 'legendary' }
-        )))
-    .addSubcommand(sub => sub
-      .setName('dungeon')
-      .setDescription('Enter the daily dungeon')),
+        .setDescription('Explore a specific region')
+        .addStringOption(opt => opt
+          .setName('region')
+          .setDescription('Region name')
+          .setRequired(true)
+          .addChoices(
+            { name: '🌲 Forest', value: 'forest' },
+            { name: '🏜️ Desert', value: 'desert' },
+            { name: '🌋 Volcano', value: 'volcano' },
+            { name: '❄️ Ice', value: 'ice' },
+            { name: '🌌 Space', value: 'space' },
+            { name: '🌊 Ocean', value: 'ocean' },
+            { name: '🌑 Shadow', value: 'shadow' },
+            { name: '✨ Celestial', value: 'celestial' },
+            { name: '🌀 Chaos', value: 'chaos' },
+            { name: '⭐ Legendary', value: 'legendary' }
+          ));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('dungeon')
+        .setDescription('Enter the daily dungeon');
+      return sub;
+    }),
 
   async execute(interaction) {
     await ensurePlayer(interaction.user.id);

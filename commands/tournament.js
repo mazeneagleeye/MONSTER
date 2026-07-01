@@ -6,62 +6,80 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('tournament')
     .setDescription('Tournament system')
-    .addSubcommand(sub => sub
-      .setName('create')
-      .setDescription('Create a new tournament')
-      .addStringOption(opt => opt
-        .setName('name')
-        .setDescription('Tournament name')
-        .setRequired(true)
-        .setMaxLength(50))
-      .addStringOption(opt => opt
-        .setName('type')
-        .setDescription('Tournament type')
-        .setRequired(true)
-        .addChoices(
-          { name: 'Single Elimination', value: 'single_elimination' },
-          { name: 'Double Elimination', value: 'double_elimination' },
-          { name: 'Round Robin', value: 'round_robin' },
-          { name: 'Survival', value: 'survival' }
-        ))
-      .addIntegerOption(opt => opt
-        .setName('players')
-        .setDescription('Max participants')
-        .setRequired(false)
-        .setMinValue(2)
-        .setMaxValue(16)
-        .setDefaultValue(8)))
-    .addSubcommand(sub => sub
-      .setName('join')
-      .setDescription('Join a tournament')
-      .addStringOption(opt => opt
-        .setName('id')
-        .setDescription('Tournament ID')
-        .setRequired(true)))
-    .addSubcommand(sub => sub
-      .setName('leave')
-      .setDescription('Leave a tournament')
-      .addStringOption(opt => opt
-        .setName('id')
-        .setDescription('Tournament ID')
-        .setRequired(true)))
-    .addSubcommand(sub => sub
-      .setName('browse')
-      .setDescription('Browse open tournaments'))
-    .addSubcommand(sub => sub
-      .setName('info')
-      .setDescription('View tournament details')
-      .addStringOption(opt => opt
-        .setName('id')
-        .setDescription('Tournament ID')
-        .setRequired(true)))
-    .addSubcommand(sub => sub
-      .setName('start')
-      .setDescription('Start a tournament (creator only)')
-      .addStringOption(opt => opt
-        .setName('id')
-        .setDescription('Tournament ID')
-        .setRequired(true))),
+    .addSubcommand(sub => {
+      sub
+        .setName('create')
+        .setDescription('Create a new tournament')
+        .addStringOption(opt => opt
+          .setName('name')
+          .setDescription('Tournament name')
+          .setRequired(true)
+          .setMaxLength(32))
+        .addStringOption(opt => opt
+          .setName('type')
+          .setDescription('Tournament type')
+          .setRequired(true)
+          .addChoices(
+            { name: 'Single Elimination', value: 'single' },
+            { name: 'Double Elimination', value: 'double' },
+            { name: 'Round Robin', value: 'round_robin' },
+            { name: 'Survival', value: 'survival' }
+          ))
+        .addIntegerOption(opt => opt
+          .setName('max_players')
+          .setDescription('Maximum participants')
+          .setRequired(false)
+          .setMinValue(2)
+          .setMaxValue(32)
+          .setDefaultValue(8));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('join')
+        .setDescription('Join a tournament')
+        .addStringOption(opt => opt
+          .setName('tournament_id')
+          .setDescription('Tournament ID to join')
+          .setRequired(true));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('leave')
+        .setDescription('Leave a tournament')
+        .addStringOption(opt => opt
+          .setName('tournament_id')
+          .setDescription('Tournament ID to leave')
+          .setRequired(true));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('browse')
+        .setDescription('Browse open tournaments');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('info')
+        .setDescription('View tournament details')
+        .addStringOption(opt => opt
+          .setName('tournament_id')
+          .setDescription('Tournament ID')
+          .setRequired(true));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('start')
+        .setDescription('Start a tournament (creator only)')
+        .addStringOption(opt => opt
+          .setName('tournament_id')
+          .setDescription('Tournament ID to start')
+          .setRequired(true));
+      return sub;
+    }),
 
   async execute(interaction) {
     await ensurePlayer(interaction.user.id);

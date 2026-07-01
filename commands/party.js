@@ -6,42 +6,63 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('party')
     .setDescription('Party system')
-    .addSubcommand(sub => sub
-      .setName('create')
-      .setDescription('Create a new party')
-      .addStringOption(opt => opt
-        .setName('activity')
-        .setDescription('Party activity')
-        .setRequired(true)
-        .addChoices(
-          { name: '⚔️ Raid Boss', value: 'raid' },
-          { name: '🏰 Dungeon', value: 'dungeon' },
-          { name: '🗺️ Exploration', value: 'explore' },
-          { name: '⚔️ PvP Battle', value: 'pvp' },
-          { name: '🌊 World Boss', value: 'world_boss' }
-        )))
-    .addSubcommand(sub => sub
-      .setName('join')
-      .setDescription('Join a party')
-      .addStringOption(opt => opt
-        .setName('id')
-        .setDescription('Party ID')
-        .setRequired(true)))
-    .addSubcommand(sub => sub
-      .setName('leave')
-      .setDescription('Leave your current party'))
-    .addSubcommand(sub => sub
-      .setName('info')
-      .setDescription('View party information'))
-    .addSubcommand(sub => sub
-      .setName('browse')
-      .setDescription('Browse open parties'))
-    .addSubcommand(sub => sub
-      .setName('disband')
-      .setDescription('Disband your party (leader only)'))
-    .addSubcommand(sub => sub
-      .setName('start')
-      .setDescription('Start party activity (leader only)')),
+    .addSubcommand(sub => {
+      sub
+        .setName('create')
+        .setDescription('Create a new party')
+        .addStringOption(opt => opt
+          .setName('activity')
+          .setDescription('Party activity')
+          .setRequired(true)
+          .addChoices(
+            { name: '⚔️ Raid', value: 'raid' },
+            { name: '🏰 Dungeon', value: 'dungeon' },
+            { name: '🗺️ Exploration', value: 'exploration' },
+            { name: '⚔️ PvP', value: 'pvp' },
+            { name: '🐉 World Boss', value: 'worldboss' }
+          ));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('join')
+        .setDescription('Join a party')
+        .addStringOption(opt => opt
+          .setName('party_id')
+          .setDescription('Party ID to join')
+          .setRequired(true));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('leave')
+        .setDescription('Leave your current party');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('info')
+        .setDescription('View party information');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('browse')
+        .setDescription('Browse open parties');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('disband')
+        .setDescription('Disband your party (leader only)');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('start')
+        .setDescription('Start party activity (leader only)');
+      return sub;
+    }),
 
   async execute(interaction) {
     await ensurePlayer(interaction.user.id);

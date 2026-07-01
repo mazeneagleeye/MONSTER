@@ -6,41 +6,62 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('battle')
     .setDescription('Battle with your monster')
-    .addSubcommand(sub => sub
-      .setName('pve')
-      .setDescription('Battle against a random enemy'))
-    .addSubcommand(sub => sub
-      .setName('boss')
-      .setDescription('Battle against a boss (costs 10 energy)'))
-    .addSubcommand(sub => sub
-      .setName('worldboss')
-      .setDescription('Battle against the world boss (costs 20 energy)'))
-    .addSubcommand(sub => sub
-      .setName('pvp')
-      .setDescription('Challenge another player')
-      .addUserOption(opt => opt
-        .setName('opponent')
-        .setDescription('Player to challenge')
-        .setRequired(true)))
-    .addSubcommand(sub => sub
-      .setName('tower')
-      .setDescription('Climb the tower')
-      .addIntegerOption(opt => opt
-        .setName('floor')
-        .setDescription('Floor to challenge')
-        .setRequired(false)
-        .setMinValue(1)
-        .setMaxValue(100)))
-    .addSubcommand(sub => sub
-      .setName('survival')
-      .setDescription('Enter survival mode'))
-    .addSubcommand(sub => sub
-      .setName('dungeon')
-      .setDescription('Enter a dungeon')
-      .addStringOption(opt => opt
-        .setName('id')
-        .setDescription('Dungeon ID')
-        .setRequired(false))),
+    .addSubcommand(sub => {
+      sub
+        .setName('pve')
+        .setDescription('Battle against a random enemy');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('boss')
+        .setDescription('Battle against a boss (costs 10 energy)');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('worldboss')
+        .setDescription('Battle against the world boss (costs 20 energy)');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('pvp')
+        .setDescription('Challenge another player')
+        .addUserOption(opt => opt
+          .setName('opponent')
+          .setDescription('Player to challenge')
+          .setRequired(true));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('tower')
+        .setDescription('Climb the tower')
+        .addIntegerOption(opt => opt
+          .setName('floor')
+          .setDescription('Floor to challenge')
+          .setRequired(false)
+          .setMinValue(1)
+          .setMaxValue(100));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('survival')
+        .setDescription('Enter survival mode');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('dungeon')
+        .setDescription('Enter a dungeon')
+        .addStringOption(opt => opt
+          .setName('id')
+          .setDescription('Dungeon ID')
+          .setRequired(false));
+      return sub;
+    }),
 
   async execute(interaction) {
     await ensurePlayer(interaction.user.id);

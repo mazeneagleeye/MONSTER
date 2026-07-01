@@ -6,49 +6,70 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('shop')
     .setDescription('Private shop system')
-    .addSubcommand(sub => sub
-      .setName('create')
-      .setDescription('Create your own shop')
-      .addStringOption(opt => opt
-        .setName('name')
-        .setDescription('Shop name')
-        .setRequired(true)
-        .setMaxLength(32)))
-    .addSubcommand(sub => sub
-      .setName('add-item')
-      .setDescription('Add item to your shop')
-      .addStringOption(opt => opt
-        .setName('item')
-        .setDescription('Item ID from inventory')
-        .setRequired(true))
-      .addIntegerOption(opt => opt
-        .setName('price')
-        .setDescription('Price in gold')
-        .setRequired(true)
-        .setMinValue(1)))
-    .addSubcommand(sub => sub
-      .setName('remove-item')
-      .setDescription('Remove item from your shop')
-      .addStringOption(opt => opt
-        .setName('item')
-        .setDescription('Shop item ID')
-        .setRequired(true)))
-    .addSubcommand(sub => sub
-      .setName('view')
-      .setDescription('View your shop'))
-    .addSubcommand(sub => sub
-      .setName('browse')
-      .setDescription('Browse all shops'))
-    .addSubcommand(sub => sub
-      .setName('visit')
-      .setDescription('Visit a specific shop')
-      .addStringOption(opt => opt
-        .setName('id')
-        .setDescription('Shop ID')
-        .setRequired(true)))
-    .addSubcommand(sub => sub
-      .setName('delete')
-      .setDescription('Delete your shop')),
+    .addSubcommand(sub => {
+      sub
+        .setName('create')
+        .setDescription('Create your own shop')
+        .addStringOption(opt => opt
+          .setName('name')
+          .setDescription('Shop name')
+          .setRequired(true)
+          .setMaxLength(32));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('add-item')
+        .setDescription('Add item to your shop')
+        .addStringOption(opt => opt
+          .setName('item')
+          .setDescription('Item ID from inventory')
+          .setRequired(true))
+        .addIntegerOption(opt => opt
+          .setName('price')
+          .setDescription('Price in gold')
+          .setRequired(true)
+          .setMinValue(1));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('remove-item')
+        .setDescription('Remove item from your shop')
+        .addStringOption(opt => opt
+          .setName('item')
+          .setDescription('Item ID to remove')
+          .setRequired(true));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('view')
+        .setDescription('View your shop');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('browse')
+        .setDescription('Browse all shops');
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('visit')
+        .setDescription('Visit a specific shop')
+        .addStringOption(opt => opt
+          .setName('shop_id')
+          .setDescription('Shop ID to visit')
+          .setRequired(true));
+      return sub;
+    })
+    .addSubcommand(sub => {
+      sub
+        .setName('delete')
+        .setDescription('Delete your shop');
+      return sub;
+    }),
 
   async execute(interaction) {
     await ensurePlayer(interaction.user.id);
