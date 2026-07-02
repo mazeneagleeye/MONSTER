@@ -28,6 +28,11 @@ for (const file of fs.readdirSync(commandsDir)) {
 
 client.once('ready', async () => {
   console.log(`Logged in as ${client.user.tag}`);
+
+  // Initialize DBs BEFORE any command/interaction can access them
+  const db = require('./lib/db');
+  await db.init();
+
   await registerCommands(client);
 
   // Start monster loop
