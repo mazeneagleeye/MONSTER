@@ -23,8 +23,7 @@ module.exports = {
           .setName('quantity')
           .setDescription('Quantity to sell')
           .setRequired(false)
-          .setMinValue(1)
-          .setDefaultValue(1));
+          .setMinValue(1));
       return sub;
     })
     .addSubcommand(sub => {
@@ -39,8 +38,7 @@ module.exports = {
           .setName('quantity')
           .setDescription('Quantity to buy')
           .setRequired(false)
-          .setMinValue(1)
-          .setDefaultValue(1));
+          .setMinValue(1));
       return sub;
     })
     .addSubcommand(sub => {
