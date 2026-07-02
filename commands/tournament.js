@@ -25,7 +25,7 @@ module.exports = {
             { name: 'Round Robin', value: 'round_robin' },
             { name: 'Survival', value: 'survival' }
           ))
-        .addIntegerOption(opt => opt
+        .addNumberOption(opt => opt
           .setName('max_players')
           .setDescription('Maximum participants')
           .setRequired(false)

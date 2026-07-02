@@ -38,7 +38,7 @@ module.exports = {
       sub
         .setName('tower')
         .setDescription('Climb the tower')
-        .addIntegerOption(opt => opt
+        .addNumberOption(opt => opt
           .setName('floor')
           .setDescription('Floor to challenge')
           .setRequired(false)

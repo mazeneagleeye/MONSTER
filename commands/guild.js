@@ -49,7 +49,7 @@ module.exports = {
       sub
         .setName('contribute')
         .setDescription('Contribute gold to guild')
-        .addIntegerOption(opt => opt
+        .addNumberOption(opt => opt
           .setName('amount')
           .setDescription('Amount of gold')
           .setRequired(true)

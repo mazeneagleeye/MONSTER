@@ -25,7 +25,7 @@ module.exports = {
           .setName('item')
           .setDescription('Item ID from inventory')
           .setRequired(true))
-        .addIntegerOption(opt => opt
+        .addNumberOption(opt => opt
           .setName('price')
           .setDescription('Price in gold')
           .setRequired(true)

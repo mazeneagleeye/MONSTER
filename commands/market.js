@@ -14,12 +14,12 @@ module.exports = {
           .setName('item')
           .setDescription('Item ID from inventory')
           .setRequired(true))
-        .addIntegerOption(opt => opt
+        .addNumberOption(opt => opt
           .setName('price')
           .setDescription('Price in gold')
           .setRequired(true)
           .setMinValue(1))
-        .addIntegerOption(opt => opt
+        .addNumberOption(opt => opt
           .setName('quantity')
           .setDescription('Quantity to sell')
           .setRequired(false)
@@ -34,7 +34,7 @@ module.exports = {
           .setName('listing')
           .setDescription('Listing ID')
           .setRequired(true))
-        .addIntegerOption(opt => opt
+        .addNumberOption(opt => opt
           .setName('quantity')
           .setDescription('Quantity to buy')
           .setRequired(false)
@@ -74,7 +74,7 @@ module.exports = {
           .setName('monster')
           .setDescription('Monster ID')
           .setRequired(true))
-        .addIntegerOption(opt => opt
+        .addNumberOption(opt => opt
           .setName('price')
           .setDescription('Price in gold')
           .setRequired(true)
