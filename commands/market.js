@@ -108,8 +108,8 @@ module.exports = {
 
 async function listItemCmd(interaction) {
   const itemId = interaction.options.getString('item');
-  const price = interaction.options.getInteger('price');
-  const quantity = interaction.options.getInteger('quantity') || 1;
+  const price = interaction.options.getNumber('price');
+  const quantity = interaction.options.getNumber('quantity') || 1;
   
   const player = await getPlayer(interaction.user.id);
   const inventory = JSON.parse(player.inventory || '[]');
@@ -130,7 +130,7 @@ async function listItemCmd(interaction) {
 
 async function buyItemCmd(interaction) {
   const listingId = interaction.options.getString('listing');
-  const quantity = interaction.options.getInteger('quantity') || 1;
+  const quantity = interaction.options.getNumber('quantity') || 1;
   
   const result = await buyItem(listingId, interaction.user.id, quantity);
   await interaction.reply({ content: result.message, ephemeral: true });
@@ -162,7 +162,7 @@ async function browseMarket(interaction) {
 
 async function sellMonster(interaction) {
   const monsterId = interaction.options.getString('monster');
-  const price = interaction.options.getInteger('price');
+  const price = interaction.options.getNumber('price');
   
   const { getPlayerMonster, getPlayerMonsters } = require('../lib/monsters');
   const { removeFromInventory } = require('../lib/players');

@@ -117,7 +117,7 @@ async function createShopCmd(interaction) {
 
 async function addItemCmd(interaction) {
   const itemId = interaction.options.getString('item');
-  const price = interaction.options.getInteger('price');
+  const price = interaction.options.getNumber('price');
   
   const shop = await getPlayerShop(interaction.user.id);
   

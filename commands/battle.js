@@ -97,7 +97,7 @@ module.exports = {
         break;
       case 'tower':
         battleType = BATTLE_TYPES.TOWER;
-        options.floor = interaction.options.getInteger('floor') || 1;
+        options.floor = interaction.options.getNumber('floor') || 1;
         break;
       case 'survival':
         battleType = BATTLE_TYPES.SURVIVAL;

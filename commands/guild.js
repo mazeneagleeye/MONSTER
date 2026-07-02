@@ -176,7 +176,7 @@ async function guildMembers(interaction) {
 }
 
 async function contributeCmd(interaction) {
-  const amount = interaction.options.getInteger('amount');
+  const amount = interaction.options.getNumber('amount');
   const result = await contributeToGuild(interaction.user.id, amount);
   
   await interaction.reply({ content: result.message, ephemeral: true });

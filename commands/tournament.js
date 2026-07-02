@@ -111,7 +111,7 @@ module.exports = {
 async function createTournamentCmd(interaction) {
   const name = interaction.options.getString('name');
   const type = interaction.options.getString('type');
-  const maxPlayers = interaction.options.getInteger('players') || 8;
+  const maxPlayers = interaction.options.getNumber('players') || 8;
   
   const result = await createTournament(interaction.user.id, name, type, maxPlayers);
   
