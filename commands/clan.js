@@ -37,7 +37,7 @@ module.exports = {
     .addSubcommand(sub => sub.setName('build').setDescription('Start building a new clan structure').addStringOption(opt => opt.setName('structure').setDescription('Structure to build').setRequired(true).addChoices(
       { name: 'Clan Laboratory', value: 'laboratory' }
     )))
-    .addSubcommand(sub => sub.setName('finish').setDescription('Finish a clan construction if its timer has expired'))),
+    .addSubcommand(sub => sub.setName('finish').setDescription('Finish a clan construction if its timer has expired')),
 
   async execute(interaction) {
     await ensurePlayer(interaction.user.id);
