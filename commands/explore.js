@@ -96,9 +96,17 @@ async function exploreRegionCmd(interaction) {
       { name: 'XP Gained', value: `+${result.xpGained}`, inline: true },
       { name: 'Gold Gained', value: `+${result.goldGained}`, inline: true }
     );
+
+  if (result.resourceReward) {
+    embed.addFields({ name: 'Resource Found', value: `${result.resourceReward.amount} ${result.resourceReward.resource}`, inline: true });
+  }
   
   if (result.foundGem) {
     embed.addFields({ name: 'Bonus', value: '💎 Found a gem!', inline: true });
+  }
+
+  if (result.foundKnowledgeBook) {
+    embed.addFields({ name: 'Bonus', value: '📘 Found a knowledge book!', inline: true });
   }
   
   await interaction.reply({ embeds: [embed], ephemeral: true });
