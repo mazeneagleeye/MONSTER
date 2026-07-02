@@ -17,7 +17,7 @@ module.exports = {
           .setMaxLength(32))
         .addStringOption(opt => opt
           .setName('type')
-          .setDescription('Tournament type')
+        .setDescription('Tournament type')
           .setRequired(true)
           .addChoices(
             { name: 'Single Elimination', value: 'single' },
@@ -30,8 +30,7 @@ module.exports = {
           .setDescription('Maximum participants')
           .setRequired(false)
           .setMinValue(2)
-          .setMaxValue(32)
-          .setDefaultValue(8));
+          .setMaxValue(32));
       return sub;
     })
     .addSubcommand(sub => {
@@ -111,7 +110,7 @@ module.exports = {
 async function createTournamentCmd(interaction) {
   const name = interaction.options.getString('name');
   const type = interaction.options.getString('type');
-  const maxPlayers = interaction.options.getNumber('players') || 8;
+  const maxPlayers = interaction.options.getNumber('max_players') ?? 8;
   
   const result = await createTournament(interaction.user.id, name, type, maxPlayers);
   
