@@ -178,11 +178,16 @@ Monsters remember battles and get hungry. Neglect them and they may become disob
    - `DISCORD_TOKEN` - Your bot token
    - `GUILD_ID` - Your server ID (for testing)
    - `MONSTER_CHANNEL_ID` - Channel for world boss
+   - `DATA_DIR` - Optional folder for persistent database files (recommended on hosted environments)
 5. Initialize the database and generate monsters:
    ```bash
    node init-monsters.js
    ```
-6. Start the bot:
+6. If you need to restore the scoreboard from the bundled backup file, run:
+   ```bash
+   npm run import-leaderboard
+   ```
+7. Start the bot:
    ```bash
    npm start
    ```
