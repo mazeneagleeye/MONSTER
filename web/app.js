@@ -61,6 +61,10 @@ async function loadDashboard() {
   const data = await response.json();
   const player = data.player;
   setText('#player-name', player.username);
+  setText('#profile-name', player.username);
+  setText('#player-handle', player.handle || 'Discord adventurer');
+  $('#profile-avatar').src = player.avatarUrl || '/images/monster%20kingdom.jpeg';
+  $('#profile-avatar').alt = `${player.username} Discord profile`;
   setText('#player-class', player.className);
   setText('#player-region', player.region);
   setText('#player-level', player.level);
@@ -105,7 +109,7 @@ function renderLeaderboard(board = 'damage') {
   const rows = leaderboardData?.[board] || [];
   $('#leaderboard-value-heading').textContent = label;
   $('#leaderboard-count').textContent = `${rows.length} player${rows.length === 1 ? '' : 's'}`;
-  $('#leaderboard-rows').innerHTML = rows.length ? rows.map((player, index) => `<tr><td>${index + 1}</td><td>${escapeHtml(player.username || player.displayName || player.userId)}</td><td>${number(player[field])}</td></tr>`).join('') : '<tr><td colspan="3">No players yet.</td></tr>';
+  $('#leaderboard-rows').innerHTML = rows.length ? rows.map((player, index) => `<tr><td>${index + 1}</td><td>${escapeHtml(player.displayName || (player.username ? `@${player.username}` : 'Adventurer'))}</td><td>${number(player[field])}</td></tr>`).join('') : '<tr><td colspan="3">No players yet.</td></tr>';
   document.querySelectorAll('#leaderboard-tabs button').forEach(button => { const selected = button.dataset.board === board; button.classList.toggle('active', selected); button.setAttribute('aria-selected', String(selected)); });
 }
 $('#leaderboards').addEventListener('click', async () => { try { const response = await fetch('/api/leaderboards'); const data = await response.json(); if (!response.ok) throw new Error(data.error || 'Leaderboard unavailable'); leaderboardData = data; $('#leaderboard-panel').classList.remove('hidden'); renderLeaderboard(); $('#leaderboard-panel').scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (error) { notify(error.message); } });

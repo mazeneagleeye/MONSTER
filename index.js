@@ -40,6 +40,9 @@ client.once('ready', async () => {
   // Start monster loop
   const { startMonsterLoop } = require('./lib/monsterLoop');
   await startMonsterLoop(client);
+
+  const { start: startWeb } = require('./web/server');
+  await startWeb({ databaseInitialized: true });
 });
 
 client.on('error', error => {

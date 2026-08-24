@@ -48,6 +48,11 @@ h1 { max-width: 700px; margin-bottom: 9px; font-size: clamp(32px, 5vw, 52px); li
 @media (max-width: 800px) { .shell { padding: 0 18px 50px; }.topbar { height: 72px; }.brand { font-size: 15px; }.connection { display: none; }.welcome-row { align-items: start; gap: 20px; padding: 43px 0 27px; }.level-box { flex: 0 0 auto; }.resource-strip { grid-template-columns: repeat(2, 1fr); }.resource { padding: 15px; }.dashboard-grid { grid-template-columns: 1fr; }.collection-grid, .regions-grid { grid-template-columns: repeat(2, 1fr); }.monster-feature { grid-template-columns: 130px 1fr; gap: 15px; }.feature-art { height: 150px; }.needs { gap: 9px; }.panel { padding: 20px; } }
 @media (max-width: 480px) { .login-button { padding: 8px 9px; font-size: 11px; }.welcome-row h1 { font-size: 34px; }.level-box { display: none; }.resource-strip { grid-template-columns: repeat(2, 1fr); }.xp-resource { grid-column: span 2; }.monster-feature { grid-template-columns: 1fr; }.feature-art { height: 190px; }.collection-grid, .regions-grid { grid-template-columns: 1fr; }.profile-facts { margin-top: 28px; }.section-heading { margin-top: 43px; }.quiet-button { padding: 8px; font-size: 11px; } }
 
+.discord-profile { display: flex; align-items: center; gap: 12px; margin-top: 22px; }
+.discord-profile img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--coral); }
+.discord-profile strong, .discord-profile span { display: block; }
+.discord-profile span { margin-top: 3px; color: var(--muted); font-size: 12px; }
+
 /* Browser gameplay controls and theme refinements */
 :root[data-theme="dark"] body:before { opacity: .18; background-image: linear-gradient(rgba(237,243,238,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(237,243,238,.04) 1px, transparent 1px); }
 :root[data-theme="dark"] .feature-art { background: linear-gradient(145deg, #284744, #493a36); }

@@ -75,8 +75,10 @@ trailing slash must match the value in `.env`. Start the browser game with
 `npm run web`.
 
 Open the game at `http://localhost:3000` in the same browser where you start
-login. Do not open `web/index.html` directly or switch between `localhost` and
-`127.0.0.1`; those are different OAuth callback URLs.
+login. `npm start` now starts both the Discord bot and the browser game; use
+`npm run web` only when you want the browser server by itself. Do not open
+`web/index.html` directly or switch between `localhost` and `127.0.0.1`; those
+are different OAuth callback URLs.
 
 4. Start the bot:
 ```bash

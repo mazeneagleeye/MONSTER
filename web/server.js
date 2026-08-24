@@ -10,7 +10,7 @@ const { getDashboard } = require('../lib/web-game');
 const { exploreRegion } = require('../lib/world');
 const { getPlayerMonsters, summonMonsterForUser, interactWithMonster, setActiveMonster } = require('../lib/monsters');
 const { getShopItems, buyItem } = require('../lib/shops');
-const { getLevelLeaderboard, getGoldLeaderboard, getMonsterCollectionLeaderboard, getLeaderboard } = require('../lib/players');
+const { ensurePlayer, updatePlayerProfile, getLevelLeaderboard, getGoldLeaderboard, getMonsterCollectionLeaderboard, getLeaderboard } = require('../lib/players');
 
 const webRoot = __dirname;
 const imageRoot = path.join(__dirname, '..', 'images');
@@ -162,6 +162,25 @@ async function handle(request, response) {
     if (!url.searchParams.get('code')) return send(response, 400, 'Discord did not return an authorization code. Start login again.');
     try {
       const discordUser = await exchangeDiscordCode(url.searchParams.get('code'));
+      const now = Date.now();
+      const displayName = discordUser.global_name || discordUser.username;
+      const avatarUrl = discordUser.avatar
+        ? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.${discordUser.avatar.startsWith('a_') ? 'gif' : 'png'}?size=256`
+        : null;
+      await ensurePlayer(discordUser.id, {
+        username: discordUser.username,
+        displayName,
+        avatarUrl,
+        accountCreatedAt: now,
+        lastLogin: now,
+        createdAt: now
+      });
+      await updatePlayerProfile(discordUser.id, {
+        username: discordUser.username,
+        displayName,
+        avatarUrl,
+        lastLogin: now
+      });
       const sessionId = createSession(discordUser.id);
       const secureCookie = process.env.DISCORD_REDIRECT_URI.startsWith('https:') ? '; Secure' : '';
       response.writeHead(302, { 'Set-Cookie': `mk_session=${sessionId}; HttpOnly; SameSite=Lax; Path=/${secureCookie}`, Location: '/' });
@@ -246,9 +265,9 @@ async function handle(request, response) {
   serveStatic(response, url.pathname);
 }
 
-async function start() {
+async function start({ databaseInitialized = false } = {}) {
   validateDiscordRedirectUri();
-  await db.init();
+  if (!databaseInitialized) await db.init();
   const server = http.createServer((request, response) => handle(request, response).catch(error => {
     console.error('Web request failed:', error);
     send(response, 500, 'Internal server error');
