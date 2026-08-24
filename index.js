@@ -30,6 +30,12 @@ for (const file of fs.readdirSync(commandsDir)) {
 
 client.once('ready', async () => {
   console.log(`Logged in as ${client.user.tag}`);
+  const heartbeat = () => {
+    const uptimeMinutes = Math.floor(process.uptime() / 60);
+    console.log(`[HEARTBEAT] Bot is online as ${client.user.tag} | uptime: ${uptimeMinutes}m`);
+  };
+  heartbeat();
+  setInterval(heartbeat, 30 * 1000);
 
   // Initialize DBs BEFORE any command/interaction can access them
   const db = require('./lib/db-adapter');
