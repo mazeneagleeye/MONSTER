@@ -4,16 +4,38 @@ const fs = require('fs');
 const path = require('path');
 
 async function main() {
-  console.log('Initializing database...');
+  console.log('🐉 Initializing Monster System...\n');
+  console.log('='.repeat(50));
+  
+  console.log('\n1️⃣ Initializing database...');
   await init();
-  console.log('Database initialized!');
+  console.log('✅ Database initialized');
   
-  console.log('Generating 500+ monsters...');
+  console.log('\n2️⃣ Loading curated monster catalog (30 unique monsters)...');
   await initMonsters();
-  console.log('Monsters generated successfully!');
+  console.log('✅ Monsters loaded successfully!');
   
-  // Create placeholder images for all monster types
-  console.log('Creating placeholder images...');
+  // Verify monster count
+  const { getAllMonsters } = require('./lib/monsters');
+  const allMonsters = await getAllMonsters();
+  console.log(`\n📊 Database contains ${allMonsters.length} monsters`);
+  
+  // Show rarity distribution
+  const rarityCount = {};
+  allMonsters.forEach(m => {
+    rarityCount[m.rarity] = (rarityCount[m.rarity] || 0) + 1;
+  });
+  console.log('   Rarity distribution:', rarityCount);
+  
+  // Show element distribution
+  const elementCount = {};
+  allMonsters.forEach(m => {
+    elementCount[m.element] = (elementCount[m.element] || 0) + 1;
+  });
+  console.log('   Element distribution:', elementCount);
+  
+  // Create placeholder images for monster types
+  console.log('\n3️⃣ Creating placeholder images...');
   const imagesDir = path.join(__dirname, 'images');
   
   // Minimal 1x1 transparent PNG (67 bytes)
@@ -41,20 +63,38 @@ async function main() {
     const filepath = path.join(imagesDir, `${imageName}.png`);
     if (!fs.existsSync(filepath)) {
       fs.writeFileSync(filepath, minimalPNG);
-      console.log(`Created placeholder: ${imageName}.png`);
+      console.log(`   Created placeholder: ${imageName}.png`);
     }
   }
   
-  console.log('\nSetup complete!');
-  console.log('\nTo add real monster images:');
-  console.log('1. Add PNG images to the images/ folder');
-  console.log('2. Name them: slime.png, goblin.png, orc.png, troll.png, ogre.png,');
-  console.log('   dragon_whelp.png, dragon.png, ancient_dragon.png, titan.png');
-  console.log('\nThe bot will work with placeholder images until you add real ones.');
+  console.log('\n' + '='.repeat(50));
+  console.log('✅ Monster system initialization complete!');
+  console.log('='.repeat(50));
+  console.log('\n📝 Next steps:');
+  console.log('   1. Run: node test-monster-system.js');
+  console.log('   2. Test all monster commands in Discord');
+  console.log('   3. Add real monster images to the images/ folder');
+  console.log('   4. Expand the catalog in lib/monsters-catalog.js');
+  console.log('\n🎮 Available commands:');
+  console.log('   • /monsters summon - Summon monsters');
+  console.log('   • /monsters collection - View your monsters');
+  console.log('   • /monsters info - View monster details');
+  console.log('   • /monsters interact - Interact with monsters');
+  console.log('   • /monsters set-active - Set active monster');
+  console.log('   • /monsters favorite - Favorite monsters');
+  console.log('   • /monsters rename - Rename monsters');
+  console.log('   • /monsters encyclopedia - View encyclopedia');
+  console.log('   • /monstermanage evolve - Evolve monsters');
+  console.log('   • /monstermanage equip - Equip items');
+  console.log('   • /monstermanage skin - Change skins');
+  console.log('   • /monstermanage stats - View statistics');
+  console.log('\n');
+  
   process.exit(0);
 }
 
 main().catch(err => {
-  console.error('Error:', err);
+  console.error('\n❌ Error:', err);
+  console.error(err.stack);
   process.exit(1);
 });

@@ -1,240 +1,268 @@
 # 🐉 Monster Kingdom - Discord Bot
 
-A persistent online world where every Discord server is its own kingdom, but all servers share one global universe.
+A comprehensive Discord bot game featuring monster collection, battles, guilds, and world exploration.
 
-## 🌍 World Features
-- **500+ monsters** to discover and collect
-- **10 different elements**: Fire, Water, Earth, Electric, Dark, Light, Wind, Ice, Poison, Psychic
-- **6 rarity levels**: Common, Uncommon, Rare, Epic, Legendary, Mythic
-- Monster evolutions and unique skills
-- Day/night cycle and weather effects
-- Seasonal events and holiday celebrations
+## ✨ Features
 
-## 👤 Player System
-- **Level 1-500** with prestige system
-- XP, Gold, Gems, and Energy mechanics
-- Inventory and equipment system
-- Titles and achievements
-- Monster collection with AI personalities
+### Core Gameplay
+- **500+ Monsters** - Collect, train, and evolve monsters with unique personalities
+- **Battle System** - PVE, PVP, Boss battles, Tower, Survival, and Dungeon modes
+- **World Exploration** - 10 unique regions with weather and time bonuses
+- **Guild System** - Create/join guilds, construct buildings, research upgrades
+- **Economy** - Market, trading, mail system, private shops
+- **Events** - Special events with rewards and leaderboards
+- **Tournaments** - Competitive PvP tournaments
+- **Daily Rewards** - Streak bonuses and special items
 
-## 🐲 Monster Collection
-- Summon monsters with gold
-- Each monster has unique:
-  - Personality (brave, shy, playful, lazy, aggressive, curious, loyal, rebellious, wise, clumsy, proud, humble)
-  - Happiness, hunger, and loyalty stats
-  - Skills and equipment slots
-  - Battle history
-- Interact with your monsters (feed, play, train, pet)
-- Build relationships with your monsters
+### Monster Features
+- Personality system (12 unique personalities)
+- Equipment system (weapons, armor, accessories, relics)
+- Evolution chains
+- Monster interactions (feed, play, train, pet)
+- Statistics tracking
+- Skins and customization
 
-## ⚔ Battle System
-- **PvE**: Battle random enemies
-- **PvP**: Challenge other players
-- **Bosses**: Fight powerful bosses for rare rewards
-- **World Boss**: Global boss that all servers can fight
-- **Tower Mode**: Climb 100 floors of increasing difficulty
-- **Survival Mode**: Endless waves of enemies
-- **Daily Dungeons**: Special dungeon challenges
+### Player Progression
+- Level system (1-500)
+- Prestige system
+- Achievements and titles
+- Daily quests
+- Work skills (lumberjack, miner, jeweler, etc.)
+- Energy system with regeneration
 
-## 🏰 Guild System
-- Create and join guilds
-- Guild bank and upgrades
-- Guild research tree
-- Guild wars and guild bosses
-- Member ranks (master, officer, member)
-- Guild leaderboards
+## 🚀 Quick Start
 
-## 💰 Economy
-- **Marketplace**: Buy and sell items
-- **Player Trading**: Direct trades with other players
-- **Mail System**: Send gifts and messages
-- **Crafting**: Create items from materials
-- **Gathering**: Fishing, Mining, Farming, Cooking, Alchemy
-- Equipment with rarity tiers
+### Prerequisites
+- Node.js 16.9.0 or higher
+- Discord Bot Token
+- MongoDB database (for bot hosting) OR SQLite (for local development)
 
-## 🎁 Daily Content
-- **Daily Quests**: 3 random quests every day
-- **Weekly Quests**: Bigger challenges weekly
-- **Monthly Pass**: Free and premium rewards
-- **Seasonal Events**: Spring, Summer, Autumn, Winter festivals
-- **Holiday Events**: New Year, Halloween, Christmas
+### Installation
 
-## 🤝 Communication
-- **Global Chat**: Chat with players across all servers
-- **Trade Chat**: Dedicated trading channel
-- **Private Mail**: Send gifts and messages
-- **Parties**: Team up for raids
-- **Tournaments**: Create and join tournaments
+1. Clone the repository:
+```bash
+git clone https://github.com/mazeneagleeye/MONSTER.git
+cd MONSTER
+```
 
-## 🌎 Global Features
-All servers share the same world:
-- Global leaderboards (level, damage, gold, guild)
-- Global marketplace
-- World bosses that span all servers
-- Cross-server PvP rankings
-- Seasonal rankings
+2. Install dependencies:
+```bash
+npm install
+```
 
-## 🤖 AI Monster Personality System
-Each monster has its own personality that affects:
-- How they react to feeding
-- Play behavior
-- Training responses
-- Affection display
-- Loyalty development
-- Battle performance
+3. Configure environment:
+```bash
+cp .env.example .env
+```
 
-Monsters remember battles and get hungry. Neglect them and they may become disobedient!
+Edit `.env` and add your Discord token and MongoDB connection string:
+```env
+DISCORD_TOKEN=your_bot_token_here
+MONGODB_URI=your_mongodb_connection_string_here
+```
 
-## 🎮 Commands
+For browser login, add these OAuth values as well:
+```env
+DISCORD_CLIENT_ID=your_discord_application_client_id
+DISCORD_CLIENT_SECRET=your_discord_application_client_secret
+DISCORD_REDIRECT_URI=http://localhost:3000/auth/callback
+WEB_PORT=3000
+```
+
+In the Discord Developer Portal, open **OAuth2 > General > Redirects** and add
+`http://localhost:3000/auth/callback` exactly. The scheme, host, port, path, and
+trailing slash must match the value in `.env`. Start the browser game with
+`npm run web`.
+
+Open the game at `http://localhost:3000` in the same browser where you start
+login. Do not open `web/index.html` directly or switch between `localhost` and
+`127.0.0.1`; those are different OAuth callback URLs.
+
+4. Start the bot:
+```bash
+npm start
+```
+
+## 📊 Database Configuration
+
+### MongoDB (Recommended for Bot Hosting)
+
+The bot supports MongoDB for persistent storage, which is **required for bot hosting platforms** (like Replit, Heroku, etc.) that use ephemeral filesystems.
+
+**Setup:**
+1. Create a MongoDB database (MongoDB Atlas recommended)
+2. Add your MongoDB connection string to `.env`:
+   ```env
+   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/monster_bot
+   ```
+3. The bot will automatically use MongoDB when `MONGODB_URI` is set
+
+**Benefits:**
+- ✅ Persistent storage across bot restarts
+- ✅ Works on bot hosting platforms
+- ✅ No file system dependencies
+- ✅ Automatic fallback to SQLite if MongoDB fails
+
+### SQLite (Local Development)
+
+If no MongoDB URI is provided, the bot falls back to SQLite for local development:
+- `monster.db` - Monster catalog and world state
+- `players.db` - Player data, monsters, guilds, etc.
+
+## 🎮 Game Mechanics
+
+### Getting Started
+1. Use `/start` to create your character
+2. Summon your first monster with `/summon`
+3. Set your active monster with `/monsters set-active`
+4. Battle enemies with `/battle`
+5. Explore the world with `/explore`
+
+### Battle System
+- **PVE**: Fight random enemies for XP and gold
+- **Boss**: Challenge powerful bosses for rare rewards
+- **World Boss**: Community event - everyone fights together
+- **PVP**: Battle other players' monsters
+- **Tower**: Climb the tower for increasing rewards
+- **Survival**: Survive as many waves as possible
+- **Dungeon**: Daily dungeon with special rewards
+
+### Element System
+- Fire > Ice > Earth > Fire
+- Water > Fire > Electric > Water
+- Dark <-> Light
+- And more strategic matchups!
+
+### Guild Features
+- Create or join guilds
+- Contribute resources and gold
+- Build guild structures
+- Research upgrades
+- Guild boss battles
+- Member management
+
+## 🛠️ Commands
 
 ### Player Commands
+- `/start` - Create your character
 - `/profile` - View your profile
-- `/monsters collection` - View your monsters
-- `/monsters summon` - Summon a new monster (100 gold)
-- `/monsters interact` - Interact with your monster
-- `/monsters set-active` - Set active monster for battles
-- `/monsters info` - View monster details
-
-### Battle Commands
-- `/battle pve` - Battle random enemy
-- `/battle boss` - Fight a boss (10 energy)
-- `/battle worldboss` - Fight world boss (20 energy)
-- `/battle pvp @user` - Challenge another player
-- `/battle tower [floor]` - Climb the tower
-- `/battle survival` - Survival mode
-- `/battle dungeon` - Enter dungeon
+- `/summon` - Summon a new monster
+- `/monsters` - Manage your monsters
+- `/battle` - Battle enemies
+- `/explore` - Explore the world
+- `/gather` - Gather resources
 
 ### Guild Commands
-- `/guild create [name]` - Create a guild
-- `/guild join [id]` - Join a guild
-- `/guild leave` - Leave guild
+- `/guild create` - Create a guild
+- `/guild join` - Join a guild
 - `/guild info` - View guild info
-- `/guild members` - View members
-- `/guild contribute [amount]` - Contribute gold
-- `/guild upgrade [type]` - Upgrade guild
-- `/guild leaderboard` - Top guilds
+- `/guild contribute` - Contribute to guild
 
 ### Economy Commands
-- `/market list [item] [price]` - List item for sale
-- `/market buy [listing]` - Buy item
-- `/market browse` - Browse marketplace
-- `/market sell-monster [id] [price]` - Sell monster
-- `/gather [activity]` - Gather resources (fishing, mining, farming, cooking, alchemy)
+- `/shop` - View shop items
+- `/market` - Player marketplace
+- `/trade` - Trade with other players
+- `/mail` - Mail system
 
-### Quest Commands
-- `/quests daily` - View daily quests
-- `/quests weekly` - View weekly quests
-- `/quests claim [quest]` - Claim rewards
+### Social Commands
+- `/party` - Party system
+- `/tournament` - Tournaments
+- `/global` - Global chat
 
-### Global Commands
-- `/global chat [message]` - Send global message
-- `/global leaderboard [type]` - View global rankings
-- `/global rank` - Check your rank
+## 📁 Project Structure
 
-### World Commands
-- `/explore world` - View world status and available regions
-- `/explore region [region]` - Explore a specific region
-- `/explore dungeon` - Enter the daily dungeon
+```
+monster-bot/
+├── commands/          # Discord slash commands
+├── lib/              # Core game logic
+│   ├── db.js         # SQLite database
+│   ├── mongodb.js    # MongoDB connection
+│   ├── db-adapter.js # Universal database adapter
+│   ├── players.js    # Player management
+│   ├── monsters.js   # Monster system
+│   ├── battles.js    # Battle system
+│   ├── guilds.js     # Guild system
+│   ├── world.js      # World exploration
+│   ├── economy.js    # Market & trading
+│   ├── events.js     # Event system
+│   ├── parties.js    # Party system
+│   ├── tournaments.js # Tournament system
+│   ├── shops.js      # Shop system
+│   └── ...
+├── images/           # Monster images
+├── data/             # SQLite database files (local only)
+├── index.js          # Main bot entry point
+└── package.json
 
-### Party Commands
-- `/party create [activity]` - Create a new party
-- `/party join [id]` - Join a party
-- `/party leave` - Leave your party
-- `/party info` - View party information
-- `/party browse` - Browse open parties
-- `/party disband` - Disband your party (leader only)
-- `/party start` - Start party activity (leader only)
+## 🔧 Configuration
 
-### Tournament Commands
-- `/tournament create [name] [type]` - Create a tournament
-- `/tournament join [id]` - Join a tournament
-- `/tournament leave [id]` - Leave a tournament
-- `/tournament browse` - Browse open tournaments
-- `/tournament info [id]` - View tournament details
-- `/tournament start [id]` - Start a tournament (creator only)
+### Environment Variables
 
-### Shop Commands
-- `/shop create [name]` - Create your own shop
-- `/shop add-item [item] [price]` - Add item to your shop
-- `/shop remove-item [item]` - Remove item from your shop
-- `/shop view` - View your shop
-- `/shop browse` - Browse all shops
-- `/shop visit [id]` - Visit a specific shop
-- `/shop delete` - Delete your shop
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DISCORD_TOKEN` | Yes | Your Discord bot token |
+| `MONGODB_URI` | No* | MongoDB connection string (*required for bot hosting) |
+| `MONGO_URI` | No* | Alternative MongoDB URI variable |
+| `MONGODB_DB_NAME` | No | MongoDB database name (default: `monster_bot`) |
+| `DATA_DIR` | No | SQLite data directory (default: `./data`) |
+| `DISCORD_CLIENT_ID` | No* | Discord application client ID for browser login |
+| `DISCORD_CLIENT_SECRET` | No* | Discord application client secret for browser login |
+| `DISCORD_REDIRECT_URI` | No* | Exact OAuth callback registered in Discord (*required together for browser login) |
+| `WEB_PORT` | No | Browser game port (default: `3000`) |
 
-### Admin Commands
-- `/monster-setup [channel]` - Set monster channel
-- `/monster-setup action=reset` - Reset monster state
+### Bot Permissions
 
-## 🚀 Setup
+Your bot needs these permissions:
+- `Send Messages`
+- `Use Slash Commands`
+- `Embed Links`
+- `Attach Files`
+- `Add Reactions`
+- `Read Message History`
+- `Use External Emojis`
 
-1. Install Node.js 22 LTS
-2. Clone this repository
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-4. Copy `.env.example` to `.env` and fill in:
-   - `DISCORD_TOKEN` - Your bot token
-   - `GUILD_ID` - Your server ID (for testing)
-   - `MONSTER_CHANNEL_ID` - Channel for world boss
-   - `DATA_DIR` - Optional folder for persistent database files (recommended on hosted environments)
-5. Initialize the database and generate monsters:
-   ```bash
-   node init-monsters.js
-   ```
-6. If you need to restore the scoreboard from the bundled backup file, run:
-   ```bash
-   npm run import-leaderboard
-   ```
-7. Start the bot:
-   ```bash
-   npm start
-   ```
+## 🎯 Game Balance
 
-## 📋 Discord Permissions
-- View Channels
-- Send Messages
-- Embed Links
-- Attach Files
-- Use Slash Commands
-- Read Message History
-- Administrator (for setup commands)
+- **Energy**: 1 energy per 5 minutes
+- **Battle Cost**: 3-20 energy depending on mode
+- **Summon Cost**: 100 gold or 10 gems
+- **Level Cap**: 500
+- **Monster Level Cap**: 100
+- **Prestige**: Reset for permanent bonuses
 
-## 🎨 Features That Make This Bot Unique
+## 🐛 Known Issues
 
-### AI Monster Personalities
-Unlike other Discord bots, Monster Kingdom features an AI system where each monster has:
-- **Memory**: Remembers battles and interactions
-- **Personality**: 12 unique personalities affecting behavior
-- **Needs**: Gets hungry over time, needs care
-- **Loyalty System**: Build trust or face disobedience
-- **Unique Reactions**: Different responses to gifts and training
+- Some command files still use direct SQLite imports (being migrated)
+- Image assets for some monsters are missing
+- Tournament system needs testing
 
-### Persistent World
-- All servers share the same universe
-- Global economy and marketplace
-- Cross-server competitions
-- World events affecting all players
+## 📝 TODO
 
-### Deep Progression
-- 500 levels of player progression
-- Prestige system for endgame
-- 500+ unique monsters to collect
-- Complex equipment and crafting
-- Multiple endgame activities
-
-## 🛠️ Technical Features
-- **Discord.js v14** with slash commands
-- **SQLite** databases for players and world state
-- **Button-based UI** - No typing commands!
-- **Image attachments** for monster displays
-- **Energy system** to prevent grinding
-- **Rate limiting** for global chat
-
-## 📝 License
-MIT
+- [ ] Complete migration of all command files to db-adapter
+- [ ] Add more monster images
+- [ ] Implement monster trading
+- [ ] Add more battle modes
+- [ ] Seasonal rankings
+- [ ] Mobile-friendly embeds
 
 ## 🤝 Contributing
-Pull requests are welcome! Feel free to add new features, monsters, or improve the code.
 
+Contributions are welcome! Please feel free to submit issues and pull requests.
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 👨‍💻 Author
+
+Created by Eagle Eye
+
+## 🙏 Acknowledgments
+
+- Discord.js community
+- MongoDB for database support
+- All the players and testers
+
+---
+
+**Note**: This bot is designed to be hosting-ready. Always use MongoDB for production deployments to ensure data persistence.

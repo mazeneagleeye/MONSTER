@@ -9,22 +9,69 @@ if (!fs.existsSync(imagesDir)) {
   fs.mkdirSync(imagesDir, { recursive: true });
 }
 
-// Monster definitions with colors
+// All 30 monsters from the catalog with colors and emojis
 const monsters = [
-  { name: 'slime', emoji: '🐍', color: '#4CAF50' },
-  { name: 'goblin', emoji: '👺', color: '#8BC34A' },
-  { name: 'orc', emoji: '🪓', color: '#795548' },
-  { name: 'troll', emoji: '👹', color: '#9E9E9E' },
-  { name: 'ogre', emoji: '🧌', color: '#607D8B' },
-  { name: 'dragon_whelp', emoji: '🐉', color: '#FF9800' },
-  { name: 'dragon', emoji: '🐲', color: '#F44336' },
-  { name: 'ancient_dragon', emoji: '👑', color: '#9C27B0' },
-  { name: 'titan', emoji: '🗿', color: '#3F51B5' }
+  // Fire Element
+  { id: 'fire_001', name: 'ember_sprite', emoji: '🔥', color: '#FF5722' },
+  { id: 'fire_002', name: 'flame_wisp', emoji: '💨', color: '#FF9800' },
+  { id: 'fire_003', name: 'inferno_drake', emoji: '🐉', color: '#F44336' },
+  
+  // Water Element
+  { id: 'water_001', name: 'droplet_fairy', emoji: '💧', color: '#2196F3' },
+  { id: 'water_002', name: 'wave_spirit', emoji: '🌊', color: '#03A9F4' },
+  { id: 'water_003', name: 'leviathan', emoji: '🐍', color: '#00BCD4' },
+  
+  // Earth Element
+  { id: 'earth_001', name: 'pebble_golem', emoji: '🪨', color: '#795548' },
+  { id: 'earth_002', name: 'boulder_guardian', emoji: '🗿', color: '#607D8B' },
+  
+  // Electric Element
+  { id: 'electric_001', name: 'spark_bug', emoji: '⚡', color: '#FFEB3B' },
+  { id: 'electric_002', name: 'thunder_hawk', emoji: '🦅', color: '#FFC107' },
+  
+  // Wind Element
+  { id: 'wind_001', name: 'breeze_fairy', emoji: '🌬️', color: '#8BC34A' },
+  { id: 'wind_002', name: 'storm_eagle', emoji: '🦅', color: '#4CAF50' },
+  
+  // Ice Element
+  { id: 'ice_001', name: 'snowflake_spirit', emoji: '❄️', color: '#B3E5FC' },
+  { id: 'ice_002', name: 'frost_wyrm', emoji: '🐉', color: '#81D4FA' },
+  
+  // Dark Element
+  { id: 'dark_001', name: 'shadow_imp', emoji: '👺', color: '#424242' },
+  { id: 'dark_002', name: 'nightmare_stalker', emoji: '👹', color: '#212121' },
+  
+  // Light Element
+  { id: 'light_001', name: 'sparkle_pixie', emoji: '✨', color: '#FFF9C4' },
+  { id: 'light_002', name: 'celestial_seraph', emoji: '👼', color: '#FFEB3B' },
+  
+  // Poison Element
+  { id: 'poison_001', name: 'toxic_slime', emoji: '☠️', color: '#8BC34A' },
+  { id: 'poison_002', name: 'venom_hydra', emoji: '🐍', color: '#4CAF50' },
+  
+  // Psychic Element
+  { id: 'psychic_001', name: 'mind_moth', emoji: '🦋', color: '#9C27B0' },
+  { id: 'psychic_002', name: 'astral_dragon', emoji: '🐉', color: '#673AB7' },
+  
+  // Additional monsters
+  { id: 'beast_001', name: 'forest_wolf', emoji: '🐺', color: '#8D6E63' },
+  { id: 'undead_001', name: 'skeleton_knight', emoji: '💀', color: '#BDBDBD' },
+  { id: 'plant_001', name: 'vine_whip', emoji: '🌿', color: '#66BB6A' },
+  { id: 'machine_001', name: 'clockwork_beetle', emoji: '🪲', color: '#607D8B' },
+  { id: 'dragon_001', name: 'dragon_whelp', emoji: '🐲', color: '#FF9800' },
+  { id: 'dragon_002', name: 'adult_dragon', emoji: '🐉', color: '#F44336' },
+  { id: 'dragon_003', name: 'ancient_dragon', emoji: '👑', color: '#9C27B0' },
+  { id: 'goblin_001', name: 'goblin_scout', emoji: '👺', color: '#8BC34A' },
+  { id: 'orc_001', name: 'orc_warrior', emoji: '🪓', color: '#795548' },
+  { id: 'slime_001', name: 'gelatinous_slime', emoji: '🟢', color: '#4CAF50' },
+  { id: 'troll_001', name: 'cave_troll', emoji: '👹', color: '#9E9E9E' },
+  { id: 'phantom_001', name: 'wraith', emoji: '👻', color: '#757575' },
+  { id: 'holy_001', name: 'unicorn_foal', emoji: '🦄', color: '#E91E63' },
+  { id: 'titan_001', name: 'stone_titan', emoji: '🗿', color: '#3F51B5' }
 ];
 
 // Simple 200x200 PNG with solid color background (minimal valid PNG)
 function createSimplePNG(color) {
-  // This creates a minimal 200x200 PNG with the specified color
   // PNG signature
   const signature = Buffer.from([
     0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A
@@ -111,14 +158,15 @@ function makeCRCTable() {
 }
 
 // Create images for each monster
+console.log('Creating monster images...\n');
 monsters.forEach(monster => {
   const filename = `${monster.name}.png`;
   const filepath = path.join(imagesDir, filename);
   const pngData = createSimplePNG(monster.color);
   fs.writeFileSync(filepath, pngData);
-  console.log(`Created: ${filename} (${monster.emoji})`);
+  console.log(`✅ Created: ${filename} (${monster.emoji}) - ${monster.id}`);
 });
 
-console.log('\nAll monster images created successfully!');
-console.log('Note: These are simple colored placeholders.');
-console.log('For better images, replace them with actual monster artwork.');
+console.log(`\n🎉 Successfully created ${monsters.length} monster images!`);
+console.log('📁 Location:', imagesDir);
+console.log('\n💡 Tip: Replace these placeholder images with actual monster artwork for better visuals.');

@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { getPlayer, ensurePlayer, updateEnergy } = require('../lib/players');
-const { startBattle, BATTLE_TYPES } = require('../lib/battles');
+const { startBattle, BATTLE_TYPES, STATUS_EFFECTS } = require('../lib/battles');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -9,13 +9,35 @@ module.exports = {
     .addSubcommand(sub => {
       sub
         .setName('pve')
-        .setDescription('Battle against a random enemy');
+        .setDescription('Battle against a random enemy')
+        .addStringOption(opt => opt
+          .setName('difficulty')
+          .setDescription('Battle difficulty')
+          .setRequired(false)
+          .addChoices(
+            { name: 'Easy', value: 'easy' },
+            { name: 'Normal', value: 'normal' },
+            { name: 'Hard', value: 'hard' },
+            { name: 'Nightmare', value: 'nightmare' },
+            { name: 'Mythic', value: 'mythic' }
+          ));
       return sub;
     })
     .addSubcommand(sub => {
       sub
         .setName('boss')
-        .setDescription('Battle against a boss (costs 10 energy)');
+        .setDescription('Battle against a boss (costs 10 energy)')
+        .addStringOption(opt => opt
+          .setName('difficulty')
+          .setDescription('Battle difficulty')
+          .setRequired(false)
+          .addChoices(
+            { name: 'Easy', value: 'easy' },
+            { name: 'Normal', value: 'normal' },
+            { name: 'Hard', value: 'hard' },
+            { name: 'Nightmare', value: 'nightmare' },
+            { name: 'Mythic', value: 'mythic' }
+          ));
       return sub;
     })
     .addSubcommand(sub => {
@@ -80,9 +102,11 @@ module.exports = {
     switch (subcommand) {
       case 'pve':
         battleType = BATTLE_TYPES.PVE;
+        options.difficulty = interaction.options.getString('difficulty') || 'normal';
         break;
       case 'boss':
         battleType = BATTLE_TYPES.BOSS;
+        options.difficulty = interaction.options.getString('difficulty') || 'normal';
         break;
       case 'worldboss':
         battleType = BATTLE_TYPES.WORLD_BOSS;
@@ -116,28 +140,66 @@ module.exports = {
       return interaction.editReply({ content: result.message });
     }
     
+    // Record battle in history
+    const { recordBattle } = require('../lib/battles');
+    const enemyName = battleType === BATTLE_TYPES.PVP ? 'PvP Battle' : 
+                      battleType === BATTLE_TYPES.WORLD_BOSS ? 'World Boss' :
+                      battleType === BATTLE_TYPES.BOSS ? 'Boss' :
+                      battleType === BATTLE_TYPES.TOWER ? `Tower Floor ${options.floor || 1}` :
+                      battleType === BATTLE_TYPES.SURVIVAL ? 'Survival' :
+                      battleType === BATTLE_TYPES.DUNGEON ? 'Dungeon' : 'Wild Monster';
+    
+    await recordBattle(interaction.user.id, {
+      result: result.won ? 'win' : 'loss',
+      enemyName: enemyName,
+      damageDealt: result.battleLog.filter(log => log.attacker === 'player').reduce((sum, log) => sum + (log.damage || 0), 0),
+      damageTaken: result.battleLog.filter(log => log.attacker === 'enemy').reduce((sum, log) => sum + (log.damage || 0), 0),
+      rounds: result.rounds || result.battleLog.length
+    });
+    
     // Create battle log embed
     const embed = new EmbedBuilder()
       .setTitle(result.won ? '🏆 Victory!' : '💀 Defeat')
       .setColor(result.won ? 0x27ae60 : 0xe74c3c)
-      .setDescription(`Battle completed in ${result.battleLog.length} rounds`);
+      .setDescription(`Battle completed in ${result.rounds || result.battleLog.length} rounds | Difficulty: ${result.difficulty || 'Normal'}`);
     
-    // Show last 5 rounds
-    const recentRounds = result.battleLog.slice(-5);
+    // Show last 10 rounds with better formatting
+    const recentRounds = result.battleLog.slice(-10);
     for (const round of recentRounds) {
+      let roundText = round.message || 'Unknown action';
+      
+      // Add status effect indicators
+      if (round.statusApplied) {
+        const statusEmoji = STATUS_EFFECTS[round.statusApplied.type]?.emoji || '✨';
+        roundText += ` ${statusEmoji}`;
+      }
+      
+      if (round.skipped) {
+        roundText = `⏭️ ${roundText}`;
+      } else if (round.confused) {
+        roundText = `🌀 ${roundText}`;
+      }
+      
       embed.addFields({
         name: `Round ${round.round}`,
-        value: round.message,
+        value: roundText,
         inline: true
       });
     }
     
     if (result.won && result.rewards) {
-      embed.addFields(
-        { name: 'XP Gained', value: `+${result.rewards.xp}`, inline: true },
-        { name: 'Gold Gained', value: `+${result.rewards.gold}`, inline: true },
-        { name: 'Gems Gained', value: `+${result.rewards.gems}`, inline: true }
-      );
+      const rewardsText = [
+        `**XP:** +${result.rewards.xp}`,
+        `**Gold:** +${result.rewards.gold}`,
+        `**Gems:** +${result.rewards.gems}`,
+        result.rewards.monsterXp ? `**Monster XP:** +${result.rewards.monsterXp}` : null
+      ].filter(Boolean).join('\n');
+      
+      embed.addFields({
+        name: '🎁 Rewards',
+        value: rewardsText,
+        inline: false
+      });
     }
     
     embed.setFooter({ text: `Your HP: ${result.playerHp} | Enemy HP: ${result.enemyHp}` });
