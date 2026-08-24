@@ -16,7 +16,7 @@ const webRoot = __dirname;
 const imageRoot = path.join(__dirname, '..', 'images');
 const sessions = new Map();
 const oauthStates = new Map();
-const port = Number(process.env.WEB_PORT || 3000);
+const port = Number(process.env.PORT || process.env.WEB_PORT || 3000);
 
 function send(response, status, body, contentType = 'text/plain; charset=utf-8') {
   response.writeHead(status, { 'Content-Type': contentType, 'Cache-Control': 'no-store' });
@@ -272,7 +272,7 @@ async function start({ databaseInitialized = false } = {}) {
     console.error('Web request failed:', error);
     send(response, 500, 'Internal server error');
   }));
-  server.listen(port, () => console.log(`Monster Kingdom web game listening at http://localhost:${port}`));
+  server.listen(port, '0.0.0.0', () => console.log(`Monster Kingdom web game listening on port ${port}`));
   return server;
 }
 

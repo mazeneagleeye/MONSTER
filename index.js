@@ -47,8 +47,6 @@ client.once('ready', async () => {
   const { startMonsterLoop } = require('./lib/monsterLoop');
   await startMonsterLoop(client);
 
-  const { start: startWeb } = require('./web/server');
-  await startWeb({ databaseInitialized: true });
 });
 
 client.on('error', error => {
@@ -235,6 +233,13 @@ if (!token || token === 'PUT_TOKEN_HERE') {
   console.error('Missing DISCORD_TOKEN in .env (or still using placeholder).');
   process.exit(1);
 }
+
+const { start: startWeb } = require('./web/server');
+startWeb().catch(error => {
+  console.error('Web server failed to start:', error.message);
+  process.exitCode = 1;
+});
+
 client.login(token).catch(error => {
   console.error('Discord login failed:', error.message);
   process.exitCode = 1;
